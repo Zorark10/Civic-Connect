@@ -22,6 +22,12 @@ import { useCivicGamification } from '@/hooks/useCivicGamification'
 import { BadgesShowcaseCard } from '@/components/citizen/BadgesShowcaseCard'
 import { CivicChampionLeaderboardCard } from '@/components/citizen/CivicChampionLeaderboardCard'
 import toast from 'react-hot-toast'
+import {
+  DEFAULT_NOTIFICATION_PREFERENCES,
+  loadNotificationPreferences,
+  saveNotificationPreferences,
+} from '@/firebase/notificationPreferences'
+import { initializeNotificationAudio } from '@/utils/notificationAudio'
 
 function PreferenceSwitch({
   label,
@@ -67,7 +73,10 @@ export function ProfilePage() {
   const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-
+  const [preferences, setPreferences] = useState({
+  ...DEFAULT_NOTIFICATION_PREFERENCES,
+  })
+  const [preferencesLoading, setPreferencesLoading] = useState(true)
   const [permissionStatus, setPermissionStatus] = useState(() =>
     getPushPermissionStatus()
   )
